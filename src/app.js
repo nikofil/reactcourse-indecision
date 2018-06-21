@@ -1,28 +1,27 @@
 const appName = 'Indecision app';
-let opts = ['a','b']
-let count = 0
-const add = () => {
-    console.log('add')
-    count++
-    rend()
+let opts = []
+const doSubmit = e => {
+    e.preventDefault()
+    const opt = e.target.elements.option.value
+    console.log(`submit: ${opt}`)
+    if (opt) {
+        opts.push(opt)
+        e.target.elements.option.value = ''
+        rend()
+    }
 }
-const sub = () => {
-    console.log('sub')
-    count--
-    rend()
-}
-const reset = () => {
-    console.log('res')
-    count = 0
-    rend()
-}
-let rend = () => {
+
+const rend= () => {
 let templ = <div>
     <h1>{appName}</h1>
-    <p>Count: {count}</p>
-    <button onClick={add} className="button">add</button>
-    <button onClick={sub} className="button">sub</button>
-    <button onClick={reset} className="button">reset</button>
+    { opts.length > 0 ? <p>You have these options:</p> : <p>No options</p> }
+    <ol>
+        { opts.map((x, i) => <li key={i}>{x}</li>) }
+    </ol>
+    <form onSubmit={ doSubmit }>
+        <input type="text" name="option" />
+        <button submit>Add</button>
+    </form>
     </div>
 
 ReactDOM.render(templ, document.getElementById('app'))
