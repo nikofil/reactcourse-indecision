@@ -24,36 +24,40 @@ class AddForm extends React.Component {
     }
 
     render() {
-        return ([
-            <div>{ this.state.err }</div>,
-            <form key="f" onSubmit={ (e) => this.doSubmit(e) }>
-                <input type="text" name="option" />
-                <button>Add</button>
-            </form>,
-            <button key="click" onClick={ this.removeAll.bind(this) }>Remove all</button>
-        ])
-    }
-}
-
-class OptionsView extends React.Component {
-    render() {
-        let ops = this.props.ops
         return (
             <div>
-                { ops.length > 0 ? <p>You have these options:</p> : <p>No options</p> }
-                <ol>
-                    { ops.map((x, i) => <li key={i}>{x}</li>) }
-                </ol>
+                <div>{ this.state.err }</div>
+                <form key="f" onSubmit={ (e) => this.doSubmit(e) }>
+                    <input type="text" name="option" />
+                    <button>Add</button>
+                </form>
+                <button key="click" onClick={ this.removeAll.bind(this) }>Remove all</button>
             </div>
         )
     }
+}
+
+function Option(props) {
+    return <li><span>{ props.children || '-' }</span><button onClick={ props.deleteItem } style={ {color: 'red'} }>-</button></li>
+}
+
+function OptionsView(props) {
+    let ops = props.ops
+    return (
+        <div>
+            { ops.length > 0 ? <p>You have these options:</p> : <p>No options</p> }
+            <ol>
+                { ops.map((x, i) => <Option deleteItem={ () => props.deleteItem(i) } key={i}><span>{x}</span></Option>) }
+            </ol>
+        </div>
+    )
 }
 
 class IndecisionApp extends React.Component {
     constructor(props) {
         super(...arguments)
         this.state = {
-            ops: []
+            ops: this.props.ops
         }
     }
 
@@ -79,18 +83,27 @@ class IndecisionApp extends React.Component {
         alert(ops[choice])
     }
 
+    deleteItem(i) {
+        console.log(`deleting item #${i}`)
+        this.setState((s) => ({
+            ops: [...s.ops.slice(0, i), ...s.ops.slice(i+1, s.ops.length)]
+        }))
+    }
+
     render() {
         let ops = this.state.ops
         return (
             <div>
                 <h1>{this.props.appName}</h1>
-                <OptionsView ops={ ops } />
+                <OptionsView deleteItem={ this.deleteItem.bind(this) } ops={ ops } />
                 <AddForm addItem={ this.addItem.bind(this) } clearOps={ this.clearOps.bind(this) } />
                 <button disabled={ops.length == 0} onClick={ this.makeSel.bind(this) }>Select random</button>
             </div>
         )
     }
 }
+
+IndecisionApp.defaultProps = { ops: [] }
 
 let templ = <IndecisionApp appName='Indecision app' />
 ReactDOM.render(templ, document.getElementById('app'))
