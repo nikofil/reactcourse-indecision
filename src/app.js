@@ -1,11 +1,21 @@
 class AddForm extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = { err: undefined }
+    }
     doSubmit(e) {
         e.preventDefault()
         const opt = e.target.elements.option.value
         console.log(`submit: ${opt}`)
         if (opt) {
-            this.props.addItem(opt)
             e.target.elements.option.value = ''
+            if (this.props.addItem(opt)) {
+                this.setState({ err: undefined })
+            } else {
+                this.setState({ err: 'This item already exists' })
+            }
+        } else {
+            this.setState({ err: 'Please write a value' })
         }
     }
 
@@ -15,6 +25,7 @@ class AddForm extends React.Component {
 
     render() {
         return ([
+            <div>{ this.state.err }</div>,
             <form key="f" onSubmit={ (e) => this.doSubmit(e) }>
                 <input type="text" name="option" />
                 <button>Add</button>
@@ -47,9 +58,13 @@ class IndecisionApp extends React.Component {
     }
 
     addItem(item) {
+        if (this.state.ops.includes(item)) {
+            return false
+        }
         this.setState((s) => ({
             ops: [...s.ops, item]
         }))
+        return true
     }
 
     clearOps() {
