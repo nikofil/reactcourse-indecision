@@ -1,46 +1,37 @@
-const appName = 'Indecision app';
-let optstore = []
-
 class AddForm extends React.Component {
     doSubmit(e) {
         e.preventDefault()
         const opt = e.target.elements.option.value
         console.log(`submit: ${opt}`)
         if (opt) {
-            this.props.opts.push(opt)
+            this.props.addItem(opt)
             e.target.elements.option.value = ''
-            rend()
         }
     }
 
     removeAll() {
-        let opts = this.props.opts
-        opts.splice(0, opts.length)
-        rend()
+        this.props.clearOps()
     }
 
     render() {
-        let opts = this.props.opts
-        return (
-            <div>
-                <form onSubmit={ (e) => this.doSubmit(e) }>
-                    <input type="text" name="option" />
-                    <button>Add</button>
-                </form>
-                <button onClick={ () => this.removeAll() }>Remove all</button>
-            </div>
-        )
+        return ([
+            <form key="f" onSubmit={ (e) => this.doSubmit(e) }>
+                <input type="text" name="option" />
+                <button>Add</button>
+            </form>,
+            <button key="click" onClick={ this.removeAll.bind(this) }>Remove all</button>
+        ])
     }
 }
 
 class OptionsView extends React.Component {
     render() {
-        let opts = this.props.opts
+        let ops = this.props.ops
         return (
             <div>
-                { opts.length > 0 ? <p>You have these options:</p> : <p>No options</p> }
+                { ops.length > 0 ? <p>You have these options:</p> : <p>No options</p> }
                 <ol>
-                    { opts.map((x, i) => <li key={i}>{x}</li>) }
+                    { ops.map((x, i) => <li key={i}>{x}</li>) }
                 </ol>
             </div>
         )
@@ -50,29 +41,41 @@ class OptionsView extends React.Component {
 class IndecisionApp extends React.Component {
     constructor(props) {
         super(...arguments)
+        this.state = {
+            ops: []
+        }
+    }
+
+    addItem(item) {
+        this.setState((s) => ({
+            ops: [...s.ops, item]
+        }))
+    }
+
+    clearOps() {
+        this.setState(() => ({
+            ops: []
+        }))
     }
 
     makeSel() {
-        let opts = this.props.opts
-        const choice = Math.floor(Math.random() * opts.length)
-        alert(opts[choice])
+        let ops = this.state.ops
+        const choice = Math.floor(Math.random() * ops.length)
+        alert(ops[choice])
     }
 
     render() {
-        let opts = this.props.opts
+        let ops = this.state.ops
         return (
             <div>
-                <h1>{appName}</h1>
-                <OptionsView opts={opts} />
-                <AddForm opts={opts} />
-                <button disabled={opts.length == 0} onClick={ () => this.makeSel() }>Select random</button>
+                <h1>{this.props.appName}</h1>
+                <OptionsView ops={ ops } />
+                <AddForm addItem={ this.addItem.bind(this) } clearOps={ this.clearOps.bind(this) } />
+                <button disabled={ops.length == 0} onClick={ this.makeSel.bind(this) }>Select random</button>
             </div>
         )
     }
 }
 
-const rend = () => {
-    let templ = <IndecisionApp opts={optstore} />
-    ReactDOM.render(templ, document.getElementById('app'))
-}
-rend()
+let templ = <IndecisionApp appName='Indecision app' />
+ReactDOM.render(templ, document.getElementById('app'))
