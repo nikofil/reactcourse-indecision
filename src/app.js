@@ -61,6 +61,26 @@ class IndecisionApp extends React.Component {
         }
     }
 
+    componentDidMount() {
+        console.log('fetching data')
+        let data = JSON.parse(localStorage.getItem('ops'))
+        if (data) {
+            this.setState(() => ({ops: data}))
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.ops.length != this.state.ops.length) {
+            console.log('saving data')
+            let data = JSON.stringify(this.state.ops)
+            localStorage.setItem('ops', data)
+        } else if (1) {
+            console.log('data didn\'t change')
+        } else {
+        alert(1)
+        }
+    }
+
     addItem(item) {
         if (this.state.ops.includes(item)) {
             return false
