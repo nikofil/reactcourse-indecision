@@ -5,7 +5,7 @@
   "author": "Nikos Filippakis <aesmade@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "serve": "live-server public/",
+    "serve": "webpack-dev-server",
     "build": "webpack --watch",
     "babel": "babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch"
   },
@@ -15,10 +15,10 @@
     "babel-loader": "7.1.1",
     "babel-preset-env": "1.5.2",
     "babel-preset-react": "6.24.1",
-    "live-server": "^1.2.0",
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "validator": "^10.4.0",
-    "webpack": "3.1.0"
+    "webpack": "3.1.0",
+    "webpack-dev-server": "2.5.1"
   }
 }
