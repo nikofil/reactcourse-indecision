@@ -1,11 +1,9 @@
 import React from 'react'
 
-class AddForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { err: undefined }
-    }
-    doSubmit(e) {
+export default class AddForm extends React.Component {
+    state = { err: undefined }
+
+    doSubmit = (e) => {
         e.preventDefault()
         const opt = e.target.elements.option.value
         console.log(`submit: ${opt}`)
@@ -21,7 +19,7 @@ class AddForm extends React.Component {
         }
     }
 
-    removeAll() {
+    removeAll = () => {
         this.props.clearOps()
     }
 
@@ -29,14 +27,12 @@ class AddForm extends React.Component {
         return (
             <div>
                 <div>{ this.state.err }</div>
-                <form key="f" onSubmit={ (e) => this.doSubmit(e) }>
+                <form key="f" onSubmit={ this.doSubmit }>
                     <input type="text" name="option" />
                     <button>Add</button>
                 </form>
-                <button key="click" onClick={ this.removeAll.bind(this) }>Remove all</button>
+                <button key="click" onClick={ this.removeAll }>Remove all</button>
             </div>
         )
     }
 }
-
-export default AddForm

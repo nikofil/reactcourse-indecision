@@ -2,12 +2,9 @@ import React from 'react'
 import OptionsView from './OptionsView'
 import AddForm from './AddForm'
 
-class IndecisionApp extends React.Component {
-    constructor(props) {
-        super(...arguments)
-        this.state = {
-            ops: this.props.ops
-        }
+export default class IndecisionApp extends React.Component {
+    state = {
+        ops: this.props.defOps
     }
 
     componentDidMount() {
@@ -23,14 +20,12 @@ class IndecisionApp extends React.Component {
             console.log('saving data')
             let data = JSON.stringify(this.state.ops)
             localStorage.setItem('ops', data)
-        } else if (1) {
-            console.log('data didn\'t change')
         } else {
-        alert(1)
+            console.log('data didn\'t change')
         }
     }
 
-    addItem(item) {
+    addItem = (item) => {
         if (this.state.ops.includes(item)) {
             return false
         }
@@ -40,19 +35,19 @@ class IndecisionApp extends React.Component {
         return true
     }
 
-    clearOps() {
+    clearOps = () => {
         this.setState(() => ({
             ops: []
         }))
     }
 
-    makeSel() {
+    makeSel = () => {
         let ops = this.state.ops
         const choice = Math.floor(Math.random() * ops.length)
         alert(ops[choice])
     }
 
-    deleteItem(i) {
+    deleteItem = (i) => {
         console.log(`deleting item #${i}`)
         this.setState((s) => ({
             ops: [...s.ops.slice(0, i), ...s.ops.slice(i+1, s.ops.length)]
@@ -64,14 +59,12 @@ class IndecisionApp extends React.Component {
         return (
             <div>
                 <h1>{this.props.appName}</h1>
-                <OptionsView deleteItem={ this.deleteItem.bind(this) } ops={ ops } />
-                <AddForm addItem={ this.addItem.bind(this) } clearOps={ this.clearOps.bind(this) } />
-                <button disabled={ops.length == 0} onClick={ this.makeSel.bind(this) }>Select random</button>
+                <OptionsView deleteItem={ this.deleteItem } ops={ ops } />
+                <AddForm addItem={ this.addItem } clearOps={ this.clearOps } />
+                <button disabled={ops.length == 0} onClick={ this.makeSel }>Select random</button>
             </div>
         )
     }
 }
 
-IndecisionApp.defaultProps = { ops: [] }
-
-export default IndecisionApp
+IndecisionApp.defaultProps = { defOps: ['Default 1', 'Default 2', 'Default 3'] }
