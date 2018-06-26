@@ -1,6 +1,7 @@
 import React from 'react'
 import OptionsView from './OptionsView'
 import AddForm from './AddForm'
+import RandomSelector from './RandomSelector'
 
 export default class IndecisionApp extends React.Component {
     state = {
@@ -41,12 +42,6 @@ export default class IndecisionApp extends React.Component {
         }))
     }
 
-    makeSel = () => {
-        let ops = this.state.ops
-        const choice = Math.floor(Math.random() * ops.length)
-        alert(ops[choice])
-    }
-
     deleteItem = (i) => {
         console.log(`deleting item #${i}`)
         this.setState((s) => ({
@@ -61,7 +56,7 @@ export default class IndecisionApp extends React.Component {
                 <h1>{this.props.appName}</h1>
                 <OptionsView deleteItem={ this.deleteItem } ops={ ops } />
                 <AddForm addItem={ this.addItem } clearOps={ this.clearOps } />
-                <button disabled={ops.length == 0} onClick={ this.makeSel }>Select random</button>
+                <RandomSelector ops={ ops } />
             </div>
         )
     }
