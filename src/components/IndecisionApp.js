@@ -2,6 +2,7 @@ import React from 'react'
 import OptionsView from './OptionsView'
 import AddForm from './AddForm'
 import RandomSelector from './RandomSelector'
+import Header from './Header'
 
 export default class IndecisionApp extends React.Component {
     state = {
@@ -53,10 +54,12 @@ export default class IndecisionApp extends React.Component {
         let ops = this.state.ops
         return (
             <div>
-                <h1>{this.props.appName}</h1>
-                <OptionsView deleteItem={ this.deleteItem } ops={ ops } />
-                <AddForm addItem={ this.addItem } clearOps={ this.clearOps } />
-                <RandomSelector ops={ ops } />
+                <Header title={this.props.appName} subtitle="Put your life in the hands of a computer" />
+                <div className="container">
+                    <OptionsView deleteItem={ this.deleteItem } ops={ ops } />
+                    <AddForm addItem={ this.addItem } clearOps={ this.clearOps } />
+                    <RandomSelector ops={ ops } />
+                </div>
             </div>
         )
     }
