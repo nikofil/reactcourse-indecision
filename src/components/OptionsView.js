@@ -5,10 +5,11 @@ function OptionsView(props) {
     let ops = props.ops
     return (
         <div>
-            { ops.length > 0 ? <p>You have these options:</p> : <p>No options</p> }
-            <ol>
-                { ops.map((x, i) => <Option deleteItem={ () => props.deleteItem(i) } key={i}><span>{x}</span></Option>) }
-            </ol>
+            <div className="widget-header">
+                <h3 className="widget-header__title">{ ops.length > 0 ? <p>Your options</p> : <p>No options</p> }</h3>
+                <div>{ props.children }</div>
+            </div>
+            { ops.map((x, i) => <Option idx={i+1} deleteItem={ () => props.deleteItem(i) } key={i}><span>{x}</span></Option>) }
         </div>
     )
 }

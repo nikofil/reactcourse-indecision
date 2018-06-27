@@ -28,7 +28,7 @@ export default class RandomSelector extends React.Component {
                 <div>{ this.state.selectedOpt }</div>
                 <button onClick={ this.closeModal }>Close</button>
             </Modal>,
-            <button key="btn" disabled={ this.props.ops.length == 0 } onClick={ this.makeSel }>Select random</button>
+            <button className="big-button" key="btn" disabled={ this.props.ops.length == 0 } onClick={ this.makeSel }>Select random</button>
         ]
     }
 }

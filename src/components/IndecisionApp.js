@@ -56,8 +56,11 @@ export default class IndecisionApp extends React.Component {
             <div>
                 <Header title={this.props.appName} subtitle="Put your life in the hands of a computer" />
                 <div className="container">
-                    <OptionsView deleteItem={ this.deleteItem } ops={ ops } />
-                    <AddForm addItem={ this.addItem } clearOps={ this.clearOps } />
+                    <div className="widget">
+                        <OptionsView deleteItem={ this.deleteItem } ops={ ops }>
+                            <AddForm addItem={ this.addItem } clearOps={ this.clearOps } />
+                        </OptionsView>
+                    </div>
                     <RandomSelector ops={ ops } />
                 </div>
             </div>

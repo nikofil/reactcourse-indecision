@@ -26,12 +26,12 @@ export default class AddForm extends React.Component {
     render() {
         return (
             <div>
-                <div>{ this.state.err }</div>
                 <form key="f" onSubmit={ this.doSubmit }>
-                    <input type="text" name="option" />
-                    <button>Add</button>
+                    <input className="widget__input" type="text" name="option" />
+                    <button className="button">Add</button>
                 </form>
-                <button key="click" onClick={ this.removeAll }>Remove all</button>
+                <button className="button--link" key="click" onClick={ this.removeAll }>Remove all</button>
+                {this.state.err && <p className="widget__message">{ this.state.err }</p>}
             </div>
         )
     }
