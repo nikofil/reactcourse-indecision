@@ -23,10 +23,12 @@ export default class RandomSelector extends React.Component {
                 contentLabel="Selected option"
                 onRequestClose={ this.closeModal }
                 appElement={ document.getElementById('app') }
+                closeTimeoutMS={200}
+                className="modal"
                 isOpen={ !!this.state.selectedOpt }>
-                <h3>Selected option</h3>
-                <div>{ this.state.selectedOpt }</div>
-                <button onClick={ this.closeModal }>Close</button>
+                <h3 className="modal__title">Selected option</h3>
+                <p className="modal__body">{ this.state.selectedOpt }</p>
+                <button className="button" onClick={ this.closeModal }>Close</button>
             </Modal>,
             <button className="big-button" key="btn" disabled={ this.props.ops.length == 0 } onClick={ this.makeSel }>Select random</button>
         ]
